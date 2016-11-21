@@ -1,0 +1,14 @@
+{
+	"autoload": {
+        "psr-0": { "": "app/" },
+        "files": [ "app/helpers.php" ]
+    },
+    "require": {
+        "slim/slim": "^3.0",
+        "illuminate/database": "~5.1",
+		"robmorgan/phinx": "^0.6.5",
+		"slim/csrf": "^0.7.0",
+		"slim/flash": "^0.2.0",
+		"slim/php-view": "^2.2"
+    }
+}
