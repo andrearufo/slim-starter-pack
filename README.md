@@ -24,10 +24,16 @@ __A starter pack based on Slim Framework and some other stuff__
 
 ### Create a new table in the database
 
-We recommend using Phinx migrations via `php vendor / bin / PHINX created MyNewMigration`, where instead of `MyNewMigration` you may use a something more verbose like `CreateModulesTable`.
+We recommend using Phinx migrations via `php vendor/bin/phinx create MyNewMigration`, where instead of `MyNewMigration` you may use a something more verbose like `CreateModulesTable`.
 
-This will generate a file in the _db/migrations_ folder. After you modify the file with the table structure, run `php files vendor / bin / PHINX migrated -and development` and the script will create the table and its setup.
+This will generate a file in the _db/migrations_ folder. After you modify the file with the table structure, run `php vendor/bin/phinx migrat -e development` and the script will create the table and its setup.
+
+## How to
+
+### Send an email
+
+Under costruction...
 
 ## Roadmap
 
-* Under costruction
+Under costruction

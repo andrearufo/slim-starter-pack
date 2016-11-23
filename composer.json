@@ -9,6 +9,7 @@
 		"robmorgan/phinx": "^0.6.5",
 		"slim/csrf": "^0.7.0",
 		"slim/flash": "^0.2.0",
-		"slim/php-view": "^2.2"
+		"slim/php-view": "^2.2",
+		"phpmailer/phpmailer": "^5.2"
     }
 }
