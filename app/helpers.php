@@ -42,3 +42,9 @@ function is_logged(){
 	return true;
 	
 }
+
+function now(){
+	
+	return date('Y-m-d H:i:s');
+
+}
