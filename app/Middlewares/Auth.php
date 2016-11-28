@@ -32,7 +32,7 @@ class Auth
 		}
 
 		// search the current users exist for the current session uniqid
-		$user = \Models\User::where('id', '=', $session->user_id)->first();
+		$user = \Models\User::where('id', '=', $session->user_id)->where('active', 1)->first();
 
 		if( !$user ){
 

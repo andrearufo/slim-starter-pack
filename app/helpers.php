@@ -36,7 +36,7 @@ function is_logged(){
 	if( !$session )	return false;
 
 	// search the current users exist for the current session uniqid
-	$user = \Models\User::where('id', '=', $session->user_id)->first();
+	$user = \Models\User::where('id', '=', $session->user_id)->where('active', 1)->first();
 	if( !$user ) return false;
 
 	return true;

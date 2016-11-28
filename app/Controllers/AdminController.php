@@ -2,24 +2,64 @@
 
 namespace Controllers;
 
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+
 final class AdminController
 {
 
 	public function __construct($container)
-    {
-        
-        $this->view = $container->view;
-    
-    }
+	{
+		
+		$this->view = $container->view;
+	
+	}
 
-	public function dashboard ($request, $response, $args)
+	public function dashboard (Request $request, Response $response, $args)
 	{
 
 		return $this->view->render($response, 'dashboard.php');
 
 	}
 
-	public function logout(Request $request, Response $response)
+	public function access (Request $request, Response $response, $args)
+	{	
+
+		// get the parameters
+		$username = $request->getParam('username');
+		$password = $request->getParam('password');
+
+		// search the user
+		$user = \Models\User::where('email', '=', $username)->where('active', 1)->first(); 
+
+		// if user not exist and password isn't correct redirect to index...
+		if( !$user || !$user->checkPassword($password) ){
+		
+			$this->container->flash->addMessage('warning', 'Incorrect username or password');
+			return $response->withStatus(302)->withHeader('Location', '/login');
+		
+		}
+
+		// ...else create a session of loggin
+		$user_id = $user->id;
+		$uniqid = uniqid();
+
+		$_SESSION['uniqid'] = $uniqid;
+
+		$session = new \Models\Session;
+
+		$session->user_id = $user_id;
+		$session->uniqid = $uniqid;
+
+		// register the session
+		$session->save();	
+
+		// then redirect to admin dashboard
+		return $response->withStatus(302)->withHeader('Location', 'admin/dashboard');
+
+	}
+
+	public function logout (Request $request, Response $response, $args)
 	{
 
 		$session = $session = \Models\Session::where('uniqid', '=', $_SESSION['uniqid'])->first();

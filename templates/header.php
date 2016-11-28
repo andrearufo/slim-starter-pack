@@ -14,36 +14,28 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-dark bg-primary mb-2">
-		<div class="container">
+	<header class="py-2 container">
 
-			<a class="navbar-brand" href="/admin/dashboard">Slim Starter Pack</a>
-				
-				<ul class="nav navbar-nav float-sm-right">
-					<li class="nav-item">
-						<a class="nav-link" href="/admin/dashboard">Dashboard</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/admin/users">Users</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Info</a>
+		<ul class="list-inline">
+			<li class="list-inline-item">
+				<span class="lead">Slim Starter Pack</span>
+			</li>
+			<li class="list-inline-item">
+				<a href="/admin/dashboard">Dashboard</a>
+			</li>
+			<li class="list-inline-item">
+				<a href="/admin/users">Users</a>
+			</li>
+			<li class="list-inline-item">
+				<a href="/admin/logout">Logout</a>
+			</li>
+		</ul>
 
-						<div class="dropdown-menu">
-							<a class="dropdown-item" target="_blank" href="http://www.andrearufo.it/">andrearufo.it</a>
-								<a class="dropdown-item" target="_blank" href="https://github.com/andrearufo/slim-starter-pack">GIT Repository</a>
-								<a class="dropdown-item" target="_blank" href="https://www.slimframework.com/">Slim Framework</a>
-							</div>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/admin/logout">Logout</a>
-					</li>
-				</ul>
-			
-		</div>
-	</nav>
+		<hr>
 
-	<div class="container">
+	</header>
+
+	<main class="container py-2">
 
 		<?php if( isset($data['messages']) ) : foreach( $data['messages'] as $status => $messages ) : ?>
 			<div class="alert alert-<?= $status ?>">

@@ -34,6 +34,10 @@ This will generate a file in the _db/migrations_ folder. After you modify the fi
 
 Under costruction...
 
+### Upload a file
+
+Under costruction...
+
 ## Roadmap
 
-Under costruction
+Under costruction...

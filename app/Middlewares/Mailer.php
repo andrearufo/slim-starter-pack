@@ -20,18 +20,18 @@ class Mailer
 		foreach( $emails as $mail ){
 
 			// sender
-		    $send = $sender->sendEmail( 
-		    			$mail->to, 
-		    			$mail->to_name, 
-		    			$mail->subject, 
-		    			$mail->message 
-		    		);
+			$send = $sender->sendEmail( 
+						$mail->to, 
+						$mail->to_name, 
+						$mail->subject, 
+						$mail->message 
+					);
 
-		    // invio l'email
-		    if( $send ){
-		        $mail->send_at = now();
-		        $mail->save();
-		    }
+			// invio l'email
+			if( $send ){
+				$mail->send_at = now();
+				$mail->save();
+			}
 		
 		}
 
