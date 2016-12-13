@@ -32,7 +32,24 @@ This will generate a file in the _db/migrations_ folder. After you modify the fi
 
 ### Send an email
 
-Under costruction...
+It's really simple.
+
+Just create a new `Email` object like:
+
+```
+$send = new \Models\Email;
+
+$send->to		= $email;
+$send->to_name	= $name;
+$send->subject	= $subject;
+$send->message	= $message;
+
+$send->save();
+```
+
+The Mailer middleware will sed for you.
+
+Other information will coming soon...
 
 ### Upload a file
 
