@@ -1,6 +1,6 @@
 <?php
 
-namespace Models;
+namespace App\Models;
 
 class Session extends \Illuminate\Database\Eloquent\Model {
 	

@@ -1,9 +1,11 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use App\Models\User;
+use App\Models\Session;
 
 final class AdminController
 {
@@ -11,14 +13,14 @@ final class AdminController
 	public function __construct($container)
 	{
 		
-		$this->view = $container->view;
+		$this->container = $container;
 	
 	}
 
 	public function dashboard (Request $request, Response $response, $args)
 	{
 
-		return $this->view->render($response, 'dashboard.php');
+		return $this->container->view->render($response, 'dashboard.php');
 
 	}
 
@@ -30,7 +32,7 @@ final class AdminController
 		$password = $request->getParam('password');
 
 		// search the user
-		$user = \Models\User::where('email', '=', $username)->where('active', 1)->first(); 
+		$user = User::where('email', '=', $username)->where('active', 1)->first(); 
 
 		// if user not exist and password isn't correct redirect to index...
 		if( !$user || !$user->checkPassword($password) ){
@@ -46,7 +48,7 @@ final class AdminController
 
 		$_SESSION['uniqid'] = $uniqid;
 
-		$session = new \Models\Session;
+		$session = new Session;
 
 		$session->user_id = $user_id;
 		$session->uniqid = $uniqid;
@@ -62,7 +64,7 @@ final class AdminController
 	public function logout (Request $request, Response $response, $args)
 	{
 
-		$session = $session = \Models\Session::where('uniqid', '=', $_SESSION['uniqid'])->first();
+		$session = $session = Session::where('uniqid', '=', $_SESSION['uniqid'])->first();
 
 		$session->delete();
 

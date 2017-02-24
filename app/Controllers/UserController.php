@@ -1,9 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use App\Models\User;
 
 final class UserController
 {
@@ -18,7 +19,7 @@ final class UserController
 	public function index (Request $request, Response $response, $args)
 	{
 
-		$data['users'] = \Models\User::all();
+		$data['users'] = User::all();
 		$data['messages'] = $this->container->flash->getMessages();
 
 		return $this->container->view->render($response, 'users.php', $data);
@@ -47,7 +48,7 @@ final class UserController
 	public function save (Request $request, Response $response, $args)
 	{
 
-		$user = new \Models\User();
+		$user = new User();
 
 		$user->email 	= $request->getParam('email');
 		$user->name 	= $request->getParam('name');
@@ -66,7 +67,7 @@ final class UserController
 	{
 
 		$id = $request->getAttribute('id');
-		$user = \Models\User::find($id);
+		$user = User::find($id);
 
 		$csrf['nameKey'] 	= $this->container->csrf->getTokenNameKey();
 		$csrf['valueKey'] 	= $this->container->csrf->getTokenValueKey();
@@ -90,7 +91,7 @@ final class UserController
 
 		$id = $request->getAttribute('id');
 
-		$user = \Models\User::find($id);
+		$user = User::find($id);
 
 		$user->email 	= $request->getParam('email');
 		$user->name 	= $request->getParam('name');
@@ -111,7 +112,7 @@ final class UserController
 
 		$id = $request->getAttribute('id');
 
-		$user = \Models\User::find($id);
+		$user = User::find($id);
 
 		$user->delete();
 

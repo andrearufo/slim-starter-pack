@@ -1,8 +1,11 @@
 <?php
 
-namespace Middlewares;
+namespace App\Middlewares;
 
-class Mailer
+use App\Models\Email;
+use App\Services\Mailer;
+
+class Sender
 {
 
 	public function __construct($container){
@@ -14,8 +17,8 @@ class Mailer
 	public function __invoke($request, $response, $next)
 	{ 
 
-		$emails = \Models\Email::where('send_at', '=', '0000-00-00 00:00:00')->take(5)->get();
-		$sender = new \Services\Mailer($this->container);
+		$emails = Email::where('send_at', '=', '0000-00-00 00:00:00')->take(5)->get();
+		$sender = new Mailer($this->container);
 
 		foreach( $emails as $mail ){
 

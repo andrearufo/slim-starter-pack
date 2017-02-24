@@ -1,6 +1,9 @@
 <?php
 
-namespace Middlewares;
+namespace App\Middlewares;
+
+use App\Models\Session;
+use App\Models\User;
 
 class Auth
 {
@@ -22,7 +25,7 @@ class Auth
 		}
 
 		// search the current session uniqid in the session table
-		$session = \Models\Session::where('uniqid', '=', $_SESSION['uniqid'])->first();
+		$session = Session::where('uniqid', '=', $_SESSION['uniqid'])->first();
 
 		if( !$session ){
 
@@ -32,7 +35,7 @@ class Auth
 		}
 
 		// search the current users exist for the current session uniqid
-		$user = \Models\User::where('id', '=', $session->user_id)->where('active', 1)->first();
+		$user = User::where('id', '=', $session->user_id)->where('active', 1)->first();
 
 		if( !$user ){
 

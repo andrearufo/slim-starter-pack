@@ -3,4 +3,4 @@
 // Middlewares
 $app->add($container->get('csrf'));
 
-$app->add(new Middlewares\Mailer($container));
+$app->add(new App\Middlewares\Sender($container));

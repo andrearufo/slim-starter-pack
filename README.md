@@ -37,7 +37,7 @@ It's really simple.
 Just create a new `Email` object like:
 
 ```
-$send = new \Models\Email;
+$send = new App\Models\Email;
 
 $send->to		= $email;
 $send->to_name	= $name;
@@ -47,7 +47,7 @@ $send->message	= $message;
 $send->save();
 ```
 
-The Mailer middleware will sed for you.
+The Sender middleware will send all your email for you.
 
 Other information will coming soon...
 
