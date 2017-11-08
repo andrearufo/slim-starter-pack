@@ -10,41 +10,25 @@ final class HomeController
 
 	public function __construct($container)
 	{
-		
 		$this->container = $container;
-	
 	}
 
 	public function index (Request $request, Response $response, $args)
-	{	
-
-		$messages = $this->container->flash->getMessages();
-		
-		$data = [
-			'messages' => $messages
-		];
-
-		return $this->container->view->render($response, 'index.php', $data);
-
+	{
+		$data['messages'] = $this->container->flash->getMessages();
+		return $this->container->view->render($response, 'public/index.html.twig', $data);
 	}
 
 	public function login (Request $request, Response $response, $args)
 	{
+		$data['csrf']['nameKey'] 	= $this->container->csrf->getTokenNameKey();
+		$data['csrf']['valueKey'] 	= $this->container->csrf->getTokenValueKey();
+		$data['csrf']['name'] 		= $request->getAttribute($data['csrf']['nameKey']);
+		$data['csrf']['value'] 		= $request->getAttribute($data['csrf']['valueKey']);
 
-		$csrf['nameKey'] 	= $this->container->csrf->getTokenNameKey();
-		$csrf['valueKey'] 	= $this->container->csrf->getTokenValueKey();
-		$csrf['name'] 		= $request->getAttribute($csrf['nameKey']);
-		$csrf['value'] 		= $request->getAttribute($csrf['valueKey']);
+		$data['messages'] = $this->container->flash->getMessages();
 
-		$messages = $this->container->flash->getMessages();
-		
-		$data = [
-			'csrf' => $csrf,
-			'messages' => $messages
-		];
-
-		return $this->container->view->render($response, 'login.php', $data);
-
+		return $this->container->view->render($response, 'public/login.html.twig', $data);
 	}
 
 }

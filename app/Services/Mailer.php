@@ -1,5 +1,9 @@
 <?php
+
 namespace App\Services;
+
+use \PHPMailer\PHPMailer\PHPMailer;
+use \PHPMailer\PHPMailer\Exception;
 
 class Mailer {
 
@@ -15,16 +19,16 @@ class Mailer {
 
 	protected $settings;
 
-	public function __construct($container) 
+	public function __construct($container)
 	{
-		
+
 		date_default_timezone_set('Europe/Rome');
 
 		//The setting from config file (see /config/settings.php)
 		$this->settings = $container['settings']['mailer'];
 
 		//Create a new PHPMailer instance
-		$this->mail = new \PHPMailer;
+		$this->mail = new PHPMailer;
 
 		//Tell PHPMailer to use SMTP
 		$this->mail->isSMTP();
@@ -56,11 +60,11 @@ class Mailer {
 		$this->mail->isHTML(true);
 
 		$this->setSender(
-			$this->settings['sender_email'], 
-			$this->settings['sender_password'], 
-			$this->settings['sender_display_name'], 
-			$this->settings['sender_display_email'], 
-			$this->settings['sender_reply_to_name'], 
+			$this->settings['sender_email'],
+			$this->settings['sender_password'],
+			$this->settings['sender_display_name'],
+			$this->settings['sender_display_email'],
+			$this->settings['sender_reply_to_name'],
 			$this->settings['sender_reply_to_email']
 		);
 
@@ -68,16 +72,16 @@ class Mailer {
 
 	public function setSender($email, $password, $display_name, $display_email, $reply_name, $reply_email)
 	{
-		
+
 		//Username to use for SMTP authentication - use full email address for gmail
 		$this->mail->Username = $email;
-		
+
 		//Password to use for SMTP authentication
 		$this->mail->Password = $password;
-		
+
 		//Set who the message is to be sent from
 		$this->mail->setFrom($display_email, $display_name);
-		
+
 		//Set an alternative reply-to address
 		$this->mail->addReplyTo($reply_email, $reply_name);
 
@@ -91,22 +95,24 @@ class Mailer {
 
 		//Set the subject line
 		$this->mail->Subject = $subject;
-		
+
 		//Read an HTML message body from an external file, convert referenced images to embedded,
 		//convert HTML into a basic plain-text alternative body
 		if( !is_null($template_name) )
 			$this->mail->msgHTML(file_get_contents($template_name));
-		
+
 		//Replace the plain text body with one created manually
 		$this->mail->Body = $message;
-		
+
 		//send the message, check for errors
-		if (!$this->mail->send()) {
-			return "Mailer Error: " . $this->mail->ErrorInfo;
-		} else {
-			return true;;
+		try {
+			$this->mail->send();
+			return true;
+		} catch (Exception $e) {
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}
 
 	}
- 
+
 }

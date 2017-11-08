@@ -1,0 +1,42 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block content %}
+
+	<h2>Users</h2>
+
+	<p class="lead">Knok knok! Can I enter please?</p>
+
+	<p><a href="{{ path_for('usersadd') }}">Add a new user</a>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Email</th>
+				<th>Name</th>
+				<th>Active</th>
+				<th>Created at</th>
+				<th>Updated at</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for user in users %}
+				<tr>
+					<td>{{ user.id }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.name }}</td>
+					<td>{{ user.active }}</td>
+					<td>{{ user.created_at }}</td>
+					<td>{{ user.updated_at }}</td>
+					<td><a href="{{ path_for('usersedit', { id : user.id }) }}">Edit</a></td>
+					<td><a href="{{ path_for('usersdelete', { id : user.id }) }}">Delete</a></td>
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+{% endblock %}

@@ -11,43 +11,36 @@ final class UserController
 
 	public function __construct($container)
 	{
-		
 		$this->container = $container;
-	
 	}
 
 	public function index (Request $request, Response $response, $args)
 	{
-
 		$data['users'] = User::all();
 		$data['messages'] = $this->container->flash->getMessages();
 
-		return $this->container->view->render($response, 'users.php', $data);
-
+		return $this->container->view->render($response, 'admin/users/index.html.twig', $data);
 	}
 
 	public function add (Request $request, Response $response, $args)
 	{
 
-		$csrf['nameKey'] 	= $this->container->csrf->getTokenNameKey();
-		$csrf['valueKey'] 	= $this->container->csrf->getTokenValueKey();
-		$csrf['name'] 		= $request->getAttribute($csrf['nameKey']);
-		$csrf['value'] 		= $request->getAttribute($csrf['valueKey']);
+		$data['user'] = null;
 
-		$messages = $this->container->flash->getMessages();
+		$data['csrf']['nameKey'] 	= $this->container->csrf->getTokenNameKey();
+		$data['csrf']['valueKey'] 	= $this->container->csrf->getTokenValueKey();
+		$data['csrf']['name'] 		= $request->getAttribute($data['csrf']['nameKey']);
+		$data['csrf']['value'] 		= $request->getAttribute($data['csrf']['valueKey']);
 
-		$data = [
-			'csrf' => $csrf,
-			'messages' => $messages
-		];
+		$data['messages'] = $this->container->flash->getMessages();
+		$data['action'] = '/admin/users/save';
+		$data['title'] = 'Add utente';
 
-		return $this->container->view->render($response, 'users-edit.php', $data);
-
+		return $this->container->view->render($response, 'admin/users/edit.html.twig', $data);
 	}
 
 	public function save (Request $request, Response $response, $args)
 	{
-
 		$user = new User();
 
 		$user->email 	= $request->getParam('email');
@@ -60,35 +53,27 @@ final class UserController
 
 		$this->container->flash->addMessage('success', 'User saved');
 		return $response->withStatus(302)->withHeader('Location', '/admin/users/edit/'.$user->id);
-
 	}
 
 	public function edit (Request $request, Response $response, $args)
 	{
-
 		$id = $request->getAttribute('id');
-		$user = User::find($id);
+		$data['user'] = User::find($id);
 
-		$csrf['nameKey'] 	= $this->container->csrf->getTokenNameKey();
-		$csrf['valueKey'] 	= $this->container->csrf->getTokenValueKey();
-		$csrf['name'] 		= $request->getAttribute($csrf['nameKey']);
-		$csrf['value'] 		= $request->getAttribute($csrf['valueKey']);
+		$data['csrf']['nameKey'] 	= $this->container->csrf->getTokenNameKey();
+		$data['csrf']['valueKey'] 	= $this->container->csrf->getTokenValueKey();
+		$data['csrf']['name'] 		= $request->getAttribute($data['csrf']['nameKey']);
+		$data['csrf']['value'] 		= $request->getAttribute($data['csrf']['valueKey']);
 
-		$messages = $this->container->flash->getMessages();
+		$data['messages'] = $this->container->flash->getMessages();
+		$data['action'] = '/admin/users/update/'.$id;
+		$data['title'] = 'Edit utente';
 
-		$data = [
-			'user' => $user,
-			'csrf' => $csrf,
-			'messages' => $messages
-		];
-
-		return $this->container->view->render($response, 'users-edit.php', $data);
-
+		return $this->container->view->render($response, 'admin/users/edit.html.twig', $data);
 	}
 
 	public function update (Request $request, Response $response, $args)
 	{
-
 		$id = $request->getAttribute('id');
 
 		$user = User::find($id);
@@ -104,12 +89,10 @@ final class UserController
 
 		$this->container->flash->addMessage('success', 'User updated');
 		return $response->withStatus(302)->withHeader('Location', '/admin/users/edit/'.$user->id);
-
 	}
 
 	public function delete (Request $request, Response $response, $args)
 	{
-
 		$id = $request->getAttribute('id');
 
 		$user = User::find($id);
@@ -118,7 +101,6 @@ final class UserController
 
 		$this->container->flash->addMessage('warning', 'User deleted');
 		return $response->withStatus(302)->withHeader('Location', '/admin/users');
-
 	}
 
 }

@@ -1,0 +1,55 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block content %}
+
+	<h2>{{ title }}</h2>
+
+	<div class="card card-body">
+		<form method="post" action="{{ action }}">
+
+			<input type="hidden" name="{{ csrf['nameKey'] }}" value="{{ csrf['name'] }}">
+			<input type="hidden" name="{{ csrf['valueKey'] }}" value="{{ csrf['value'] }}">
+
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input type="email" name="email" class="form-control" required value="{{ user.email }}">
+				<small class="form-text text-muted">Used al username for login</small>
+			</div>
+
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input type="text" name="name" class="form-control" value="{{ user.name }}">
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" name="password" class="form-control" {% if (not user) %} required {% endif %}>
+				<small class="form-text text-warning">Leave blank for no changes</small>
+			</div>
+
+			<div class="form-group">
+				<div class="form-check form-check-inline">
+					<label class="form-check-label">
+
+				  		<input class="form-check-input" type="radio" name="active" required
+				  			value="1" {% if (user and user.active) %} checked {% endif %}
+				  		> Active
+
+					</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label">
+
+					  	<input class="form-check-input" type="radio" name="active"
+					  		value="0" {% if (user and not user.active) %} checked {% endif %}
+					  	> Unactive
+					</label>
+				</div>
+			</div>
+
+			<button class="btn btn-block btn-primary">Save</button>
+
+		</form>
+	</div>
+
+{% endblock %}

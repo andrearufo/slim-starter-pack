@@ -1,0 +1,30 @@
+{% extends 'public/layout.html.twig' %}
+
+{% block content %}
+
+	<p class="display-4">Welcome!</p>
+	<p class="lead">A starter pack based on Slim Framework and some other stuff</p>
+	<p>Created by <a href="http://www.andrearufo.it">Andrea Rufo</a></p>
+
+	<hr>
+
+	<div class="row">
+		<div class="col">
+
+			<a class="btn btn-block btn-primary" href="{{ path_for('login') }}">
+				<i class="fa fa-lock"></i>
+				Login
+			</a>
+
+		</div>
+		<div class="col">
+
+			<a class="btn btn-block btn-secondary" href="https://github.com/andrearufo/slim-starter-pack">
+				<i class="fa fa-github"></i>
+				GitHub
+			</a>
+
+		</div>
+	</div>
+
+{% endblock %}

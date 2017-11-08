@@ -7,8 +7,8 @@ class CreateEmailsTable extends AbstractMigration
 
     public function change()
     {
-    
         $table = $this->table('emails');
+        
         $table->addColumn('to', 'string')
               ->addColumn('to_name', 'string')
               ->addColumn('subject', 'string')
@@ -17,7 +17,6 @@ class CreateEmailsTable extends AbstractMigration
               ->addColumn('created_at', 'datetime')
               ->addColumn('updated_at', 'datetime', array('null' => true))
               ->save();
-
     }
 
 }
