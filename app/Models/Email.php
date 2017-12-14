@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-class Email extends \Illuminate\Database\Eloquent\Model {
+class Email extends Model {
 	
-	public function __construct() {
-
-	}
-
 }

@@ -2,48 +2,38 @@
 
 namespace App\Middlewares;
 
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use App\Models\Email;
 use App\Services\Mailer;
 
-class Sender
+class Sender extends Middleware
 {
 
-	public function __construct($container){
-		
-		$this->container = $container;
-		
-	}
+	const emailnum = 5;
 
-	public function __invoke($request, $response, $next)
-	{ 
-
-		$emails = Email::where('send_at', '=', '0000-00-00 00:00:00')->take(5)->get();
+	public function __invoke(Request $request, Response $response, callable $next)
+	{
+		$emails = Email::where('send_at', '=', '0000-00-00 00:00:00')->take(self::emailnum)->get();
 		$sender = new Mailer($this->container);
 
 		foreach( $emails as $mail ){
-
 			// sender
-			$send = $sender->sendEmail( 
-						$mail->to, 
-						$mail->to_name, 
-						$mail->subject, 
-						$mail->message 
-					);
+			$send = $sender->sendEmail(
+				$mail->to,
+				$mail->to_name,
+				$mail->subject,
+				$mail->message
+			);
 
-			// invio l'email
+			// send email
 			if( $send ){
 				$mail->send_at = now();
 				$mail->save();
 			}
-		
 		}
 
-		$response = $next($request, $response);
-		
-		// no post actions
-
-		return $response;
-		
+		return $next($request, $response);
 	}
 
 }

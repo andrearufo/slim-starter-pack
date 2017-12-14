@@ -21,14 +21,14 @@ function slugify($text)
 	$text = strtolower($text);
 
 	if (empty($text)) {
-	return 'n-a';
+		return 'n-a';
 	}
 
 	return $text;
 }
 
-function is_logged(){
-
+function is_logged()
+{
 	if( !isset($_SESSION['uniqid']) ) return false;
 
 	// search the current session uniqid in the session table
@@ -40,11 +40,10 @@ function is_logged(){
 	if( !$user ) return false;
 
 	return true;
-	
+
 }
 
-function now(){
-	
+function now()
+{
 	return date('Y-m-d H:i:s');
-
 }

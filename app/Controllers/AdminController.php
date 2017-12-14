@@ -7,13 +7,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use App\Models\User;
 use App\Models\Session;
 
-final class AdminController
+class AdminController extends Controller
 {
-
-	public function __construct($container)
-	{
-		$this->container = $container;
-	}
 
 	public function dashboard (Request $request, Response $response, $args)
 	{
@@ -25,16 +20,14 @@ final class AdminController
 		// get the parameters
 		$username = $request->getParam('username');
 		$password = $request->getParam('password');
-		
+
 		// search the user
 		$user = User::where('email', '=', $username)->where('active', 1)->first();
 
 		// if user not exist and password isn't correct redirect to index...
 		if( !$user || !$user->checkPassword($password) ){
-
 			$this->container->flash->addMessage('warning', 'Incorrect username or password');
-			return $response->withStatus(302)->withHeader('Location', '/login');
-
+			return $response->withStatus(302)->withHeader('Location', $this->container->get('router')->pathFor('login'));
 		}
 
 		// ...else create a session of loggin
@@ -52,7 +45,7 @@ final class AdminController
 		$session->save();
 
 		// then redirect to admin dashboard
-		return $response->withStatus(302)->withHeader('Location', 'admin/dashboard');
+		return $response->withStatus(302)->withHeader('Location', $this->container->get('router')->pathFor('dashboard'));
 
 	}
 
@@ -62,13 +55,10 @@ final class AdminController
 		$session = $session = Session::where('uniqid', '=', $_SESSION['uniqid'])->first();
 
 		$session->delete();
-
 		unset($_SESSION['uniqid']);
 
 		$this->container->flash->addMessage('success', 'You are logged out');
-
-		return $response->withStatus(302)->withHeader('Location', '/');
-
+		return $response->withStatus(302)->withHeader('Location', $this->container->get('router')->pathFor('index'));
 	}
 
 }

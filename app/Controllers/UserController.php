@@ -6,13 +6,8 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use App\Models\User;
 
-final class UserController
+class UserController extends Controller
 {
-
-	public function __construct($container)
-	{
-		$this->container = $container;
-	}
 
 	public function index (Request $request, Response $response, $args)
 	{
@@ -24,7 +19,6 @@ final class UserController
 
 	public function add (Request $request, Response $response, $args)
 	{
-
 		$data['user'] = null;
 
 		$data['csrf']['nameKey'] 	= $this->container->csrf->getTokenNameKey();
@@ -52,7 +46,7 @@ final class UserController
 		$user->save();
 
 		$this->container->flash->addMessage('success', 'User saved');
-		return $response->withStatus(302)->withHeader('Location', '/admin/users/edit/'.$user->id);
+		return $response->withStatus(302)->withHeader('Location', $this->container->get('router')->pathFor('usersedit', ['id' => $user->id]));
 	}
 
 	public function edit (Request $request, Response $response, $args)
@@ -88,7 +82,7 @@ final class UserController
 		$user->save();
 
 		$this->container->flash->addMessage('success', 'User updated');
-		return $response->withStatus(302)->withHeader('Location', '/admin/users/edit/'.$user->id);
+		return $response->withStatus(302)->withHeader('Location', $this->container->get('router')->pathFor('usersedit', ['id' => $user->id]));
 	}
 
 	public function delete (Request $request, Response $response, $args)
@@ -100,7 +94,7 @@ final class UserController
 		$user->delete();
 
 		$this->container->flash->addMessage('warning', 'User deleted');
-		return $response->withStatus(302)->withHeader('Location', '/admin/users');
+		return $response->withStatus(302)->withHeader('Location', $this->container->get('router')->pathFor('users'));
 	}
 
 }

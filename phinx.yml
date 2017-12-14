@@ -26,8 +26,8 @@ environments:
     testing:
         adapter: mysql
         host: localhost
-        name: ssp
-        user: root
-        pass: 'root'
+        name: slimstarterpack
+        user: homestead
+        pass: 'secret'
         port: 3306
         charset: utf8

@@ -3,8 +3,15 @@
 // Get container
 $container = $app->getContainer();
 
+// database
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection($settings['settings']['db']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
 // Register component on container
-$container['view'] = function ($container) {
+$container['view'] = function ($container)
+{
     $view = new \Slim\Views\Twig(PATH_ROOT . 'templates', [
 		'debug' => true
 		// TODO: use cache
@@ -20,11 +27,13 @@ $container['view'] = function ($container) {
 };
 
 // Service for the tokens
-$container['csrf'] = function ($container) {
+$container['csrf'] = function ($container)
+{
 	return new \Slim\Csrf\Guard;
 };
 
 // Flash Messages
-$container['flash'] = function ($container) {
+$container['flash'] = function ($container)
+{
 	return new \Slim\Flash\Messages();
 };

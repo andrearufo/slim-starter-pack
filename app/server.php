@@ -21,8 +21,5 @@ require PATH_ROOT . 'app/middlewares.php';
 // Register routes
 require PATH_ROOT . 'app/routes.php';
 
-// Register database
-require PATH_ROOT . 'config/database.php';
-
 // Run the app
 $app->run();
