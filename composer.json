@@ -4,7 +4,7 @@
         "files": [ "app/helpers.php" ]
     },
 	"require": {
-		"slim/slim": "^3.9",
+		"slim/slim": "^4.5",
 		"illuminate/database": "^6.18",
 		"robmorgan/phinx": "^0.9.1",
 		"slim/csrf": "^1.0.0",
